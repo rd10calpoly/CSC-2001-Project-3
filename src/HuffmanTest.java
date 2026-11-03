@@ -45,6 +45,9 @@ public class HuffmanTest {
     /**
      * Compares two files line by line, trimming trailing CR/LF so the
      * comparison works the same on Windows and Unix-style line endings.
+     * @param file1: String
+     * @param file2: String
+     * @return boolean
      */
     private static boolean compareFiles(String file1, String file2) throws IOException {
         try (BufferedReader r1 = new BufferedReader(new FileReader(file1));

@@ -12,7 +12,10 @@
 public record HuffmanNode(int charAscii, int freq, HuffmanNode left, HuffmanNode right)
         implements Comparable<HuffmanNode> {
 
-    /** Convenience constructor for a leaf node (no children). */
+    /** Convenience constructor for a leaf node (no children).
+     * @param charAscii: int
+     * @param freq: int
+     * */
     public HuffmanNode(int charAscii, int freq) {
         this(charAscii, freq, null, null);
     }
@@ -31,6 +34,11 @@ public record HuffmanNode(int charAscii, int freq, HuffmanNode left, HuffmanNode
      * A node "comes before" another if its frequency count is smaller.
      * Ties are broken using the ASCII value of the character: the node
      * with the smaller ASCII value comes first.
+     * @param a: HuffmanNode
+     * @param b: HuffmanNode
+     * @return boolean
+     * (1) comesBefore(freq: 6, freq: 3) -> false
+     * (2) comesBefore(freq: 2, freq: 8) -> true
      */
     public static boolean comesBefore(HuffmanNode a, HuffmanNode b) {
         // TODO: implement
@@ -50,6 +58,11 @@ public record HuffmanNode(int charAscii, int freq, HuffmanNode left, HuffmanNode
      * other goes on the right. The new node's frequency is the sum of a's
      * and b's frequencies. The new node's charAscii value is the smaller
      * of a's and b's charAscii values (used to break ties later on).
+     * @param a: HuffmanNode
+     * @param b: HuffmanNode
+     * @return HuffmanNode
+     * (1) combine(('a', 9), ('c', 2)) -> new HuffmanNode('a', 11)
+     *  left child of that parent will be ('c', 2) and right child of that parent will be ('a', 9)
      */
     public static HuffmanNode combine(HuffmanNode a, HuffmanNode b) {
         // TODO: implement
@@ -75,6 +88,10 @@ public record HuffmanNode(int charAscii, int freq, HuffmanNode left, HuffmanNode
      * Natural ordering consistent with comesBefore(), so that HuffmanNode
      * objects can be stored directly in a sorted structure (e.g. a
      * PriorityQueue or a sorted List) while building the tree.
+     * @param other: HuffmanNode
+     * @return int
+     *  (1) this.compareTo(other) -> (this < other) -> -1
+     *  (2) this.compareTo(other) -> (this == other) -> 0
      */
     @Override
     public int compareTo(HuffmanNode other) {

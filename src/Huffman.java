@@ -36,7 +36,6 @@ public class Huffman {
         int[] freq = new int[NUM_CHARS];
         // TODO: implement
         File f = new File(filename);
-
         return freq;
     }
 
