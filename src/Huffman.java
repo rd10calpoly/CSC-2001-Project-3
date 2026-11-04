@@ -31,11 +31,20 @@ public class Huffman {
      * occurrence of every character in it.
      * Returns an int array of size NUM_CHARS, indexed by ASCII value, with
      * the count of each character (0 for characters that do not occur).
+     * @param filename: String
+     * @return int[]
      */
     public static int[] cntFreq(String filename) throws IOException {
         int[] freq = new int[NUM_CHARS];
         // TODO: implement
         File f = new File(filename);
+        FileReader reader = new FileReader(f);
+        int c = reader.read();
+        while (c != -1) {
+            freq[c]++;
+            c = reader.read();
+        }
+        reader.close();
         return freq;
     }
 
@@ -51,6 +60,7 @@ public class Huffman {
      */
     public static void addNode(Collection<HuffmanNode> collection, HuffmanNode node) {
         // TODO: implement
+        collection.add(node);
     }
 
     /**
