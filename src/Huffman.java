@@ -1,4 +1,5 @@
 import java.io.*;
+import java.lang.reflect.Array;
 import java.util.*;
 
 /**
@@ -75,7 +76,24 @@ public class Huffman {
      */
     public static HuffmanNode removeMin(Collection<HuffmanNode> collection) {
         // TODO: implement
-        return null;
+        if (collection.isEmpty()) {
+            return null;
+        }
+
+        if (collection instanceof PriorityQueue<HuffmanNode>) {
+            PriorityQueue<HuffmanNode> pq = (PriorityQueue<HuffmanNode>) collection;
+            HuffmanNode node = pq.poll();
+            return node;
+        } else {
+            HuffmanNode minimum = null;
+            for (HuffmanNode n : collection) {
+                if (minimum == null || HuffmanNode.comesBefore(n, minimum)) {
+                    minimum = n;
+                }
+            }
+            collection.remove(minimum);
+            return minimum;
+        }
     }
 
     /**
@@ -95,8 +113,22 @@ public class Huffman {
      *    character (no combine() call needed).
      */
     public static HuffmanNode createHuffTree(int[] freq) {
-        // TODO: implement
-        return null;
+        PriorityQueue<HuffmanNode> pq = new PriorityQueue<>();
+        for (int i = 0; i < NUM_CHARS; i++) {
+            if (freq[i] > 0) {
+                HuffmanNode h = new HuffmanNode((char) i, freq[i], null, null);
+                addNode(pq, h);
+            }
+        }
+        if (pq.isEmpty()) {
+            return null;
+        }
+        while (pq.size() > 1) {
+            HuffmanNode left = removeMin(pq);
+            HuffmanNode right = removeMin(pq);
+            addNode(pq, HuffmanNode.combine(left, right));
+        }
+        return removeMin(pq);
     }
 
     /**
@@ -128,7 +160,13 @@ public class Huffman {
      */
     public static String createHeader(int[] freq) {
         // TODO: implement
-        return "";
+        String result = "";
+        for (int i = 0; i < freq.length; i++) {
+            if (freq[i] > 0) {
+                result += i + " " + freq[i] + " ";
+            }
+        }
+       return result.substring(0, result.length() - 1);
     }
 
     /**
@@ -157,6 +195,10 @@ public class Huffman {
      */
     public static int[] parseHeader(String headerString) {
         int[] freq = new int[NUM_CHARS];
+        for (int i = 0; i < headerString.length(); i++) {
+            char c = headerString.charAt(i);
+            freq[c]++;
+        }
         // TODO: implement
         return freq;
     }
