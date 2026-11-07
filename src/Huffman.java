@@ -1,5 +1,4 @@
 import java.io.*;
-import java.lang.reflect.Array;
 import java.util.*;
 
 /**
@@ -38,6 +37,7 @@ public class Huffman {
     public static int[] cntFreq(String filename) throws IOException {
         int[] freq = new int[NUM_CHARS];
         // TODO: implement
+        System.out.println(new java.io.File("CSC-2001-Project-3/file2.txt").getAbsolutePath());
         File f = new File(filename);
         FileReader reader = new FileReader(f);
         int c = reader.read();
@@ -166,7 +166,11 @@ public class Huffman {
                 result += i + " " + freq[i] + " ";
             }
         }
-       return result.substring(0, result.length() - 1);
+        if (result.length() == 0) {
+            return "";
+        } else {
+            return result.substring(0, result.length() - 1);
+        }
     }
 
     /**
@@ -195,6 +199,7 @@ public class Huffman {
      */
     public static int[] parseHeader(String headerString) {
         int[] freq = new int[NUM_CHARS];
+        String[] valuesInHeaders = headerString.split(" ");
         for (int i = 0; i < headerString.length(); i++) {
             char c = headerString.charAt(i);
             freq[c]++;

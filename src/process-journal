@@ -19,6 +19,12 @@ HuffmanNode are on testing phase.
 Huffman class is currently in the works.
 There are problems and I am a bit confused on some of the wording of the comments but
 those will be asked tomorrow during lab hours.
+createHeader throws IndexOutOfBoundsException when all values in array is 0.
 
 4 Nov. 2026                   (5 days left)
 3 methods are left for the Huffman class, didn't have the opportunity to ask about Huffman class.
+In CSC 2001, was working with partner for Lab 7.
+createHeader is fixed so that it works when all values in array is 0.
+createHeader needs an if-else statement for that special case.
+
+5 Nov. 2025                     (4 days left)

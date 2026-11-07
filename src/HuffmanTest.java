@@ -15,7 +15,7 @@ public class HuffmanTest {
 
     @Test
     public void testCntFreq() throws IOException {
-        int[] freqList = Huffman.cntFreq("file2.txt");
+        int[] freqList = Huffman.cntFreq("CSC-2001-Project-3/file2.txt");
         int[] ansList = {2, 4, 8, 16, 0, 2, 0}; // counts for ascii 97..103
         for (int i = 0; i < ansList.length; i++) {
             assertEquals(ansList[i], freqList[97 + i], "mismatch at ascii " + (97 + i));
@@ -32,14 +32,14 @@ public class HuffmanTest {
 
     @Test
     public void testCreateHeader() throws IOException {
-        int[] freqList = Huffman.cntFreq("file2.txt");
+        int[] freqList = Huffman.cntFreq("CSC-2001-Project-3/file2.txt");
         assertEquals("97 2 98 4 99 8 100 16 102 2", Huffman.createHeader(freqList));
     }
 
     @Test
     public void test01Textfile() throws IOException {
-        Huffman.huffmanEncode("file1.txt", "file1_out.txt");
-        assertTrue(compareFiles("file1_out.txt", "file1_soln.txt"));
+        Huffman.huffmanEncode("CSC-2001-Project-3/file1.txt", "file1_out.txt");
+        assertTrue(compareFiles("file1_out.txt", "CSC-2001-Project-3/file1_soln.txt"));
     }
 
     @Test
@@ -48,6 +48,40 @@ public class HuffmanTest {
         assertTrue(n.isLeaf());
     }
 
+    @Test
+    public void testAddNode() {
+
+    }
+
+    @Test
+    public void testRemoveMin() {
+
+    }
+
+    @Test
+    public void testCreateTree() {
+
+    }
+
+    @Test
+    public void testCreateCode() {
+
+    }
+
+    @Test
+    public void testHuffmanEncode() {
+
+    }
+
+    @Test
+    public void testParseHeader() {
+
+    }
+
+    @Test
+    public void testHuffmanDecode() {
+
+    }
     /**
      * Compares two files line by line, trimming trailing CR/LF so the
      * comparison works the same on Windows and Unix-style line endings.
