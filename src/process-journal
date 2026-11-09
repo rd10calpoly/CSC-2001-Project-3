@@ -53,8 +53,20 @@ Problem: 100% coverage for all classes (HuffmanNode, Huffman)
 Problem 2: how do i test the compareFiles method to ensure 100% coverage.
 Problem 3: Fatigue and extreme tiredness is another problem I am suffering with.
 
+creating 5 new text files (file3, file4, file5, empty, and multiplelines)
+one tests for just a lowercase word
+one tests for combination of capital letters and lowercase letters
+one tests for combination of symbols, capital letters, and lowercase letters
+one tests for empty String.
+one tests for multiple new lines.
+
 
 9 Nov. 2026                           (due at 10PM)
 Solution to Problem 2: do some assertFalse's to make sure compareFiles() in HuffmanTest work properly.
 Solution to Problem 3: I am getting better and this isn't really a problem anymore.
+Problem: huffmanDecode does not work with empty text files.
+Solution to problem: have an if statement to check is that line isn't empty with hasNextLine().
+
+
+Everything is finished, time to submit.
 

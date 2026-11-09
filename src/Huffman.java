@@ -301,6 +301,11 @@ public class Huffman {
         File file = new File(encodedFile);
         Scanner scan = new Scanner(file);
         FileWriter writer = new FileWriter(decodeFile);
+        if (!scan.hasNextLine()) {
+            scan.close();
+            writer.close();
+            return;
+        }
         String firstLineHeader = scan.nextLine();
         int[] frequencies = parseHeader(firstLineHeader);
         HuffmanNode tree = createHuffTree(frequencies);

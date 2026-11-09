@@ -3,6 +3,9 @@ import org.junit.jupiter.api.Test;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.PriorityQueue;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -91,23 +94,80 @@ public class HuffmanTest {
     }
 
     @Test
-    public void addNode() {
-
-    }
-
-    @Test
     public void removeMin() {
+        PriorityQueue<HuffmanNode> pq = new PriorityQueue<>();
+        assertNull(Huffman.removeMin(pq));
 
+
+        HuffmanNode huffmanNode = new HuffmanNode(35, 2);
+        HuffmanNode huffmanNode1 = new HuffmanNode(69, 3);
+        HuffmanNode combined = HuffmanNode.combine(huffmanNode, huffmanNode1);
+        pq.add(huffmanNode);
+        pq.add(huffmanNode1);
+        pq.add(combined);
+        assertEquals(huffmanNode, Huffman.removeMin(pq));
+        assertEquals(huffmanNode1, Huffman.removeMin(pq));
+        assertEquals(combined, Huffman.removeMin(pq));
+
+
+        ArrayList<HuffmanNode> al = new ArrayList<>();
+        HuffmanNode huffmanNode2 = new HuffmanNode(98, 2);
+        HuffmanNode huffmanNode3 = new HuffmanNode(77, 3);
+        HuffmanNode huffmanNode4 = new HuffmanNode(100, 3);
+        HuffmanNode huffmanNode5 = new HuffmanNode(98, 1);
+        HuffmanNode combined1 = HuffmanNode.combine(huffmanNode2, huffmanNode3);
+        HuffmanNode combined2 = HuffmanNode.combine(combined1, huffmanNode4);
+        al.add(huffmanNode2);
+        al.add(huffmanNode3);
+        al.add(huffmanNode4);
+        al.add(huffmanNode5);
+        al.add(combined1);
+        al.add(combined2);
+        assertEquals(huffmanNode5, Huffman.removeMin(al));
+        assertEquals(huffmanNode2, Huffman.removeMin(al));
+        assertEquals(huffmanNode3, Huffman.removeMin(al));
+        assertEquals(huffmanNode4, Huffman.removeMin(al));
+        assertEquals(combined1, Huffman.removeMin(al));
+        assertEquals(combined2, Huffman.removeMin(al));
     }
 
     @Test
-    public void createTree() {
+    public void createHuffTree() {
+        int[] freq1 = new int[256];
+        freq1[68] = 21;
+        freq1[69] = 33;
+        Huffman.createHuffTree(freq1);
+        assertEquals(new HuffmanNode(68, 54, new HuffmanNode(68, 21, null, null), new HuffmanNode(69, 33, null, null)), Huffman.createHuffTree(freq1));
 
+
+        String header2 = "1 2 3 4";
+        int[] parsed2 = Huffman.parseHeader(header2);
+        int[] freq2 = new int[256];
+        for (int i = 1; i <= 3; i += 2) {
+            freq2[i] = i + 1;
+        }
+        assertEquals(new HuffmanNode(1, 6, new HuffmanNode(1, 2, null, null), new HuffmanNode(3, 4, null, null)), Huffman.createHuffTree(freq2));
+
+        int[] freq3 = new int[256];
+        assertNull(Huffman.createHuffTree(freq3));
     }
 
     @Test
     public void createCode() {
+        String[] nullCheck = new String[256];
+        Arrays.fill(nullCheck, "");
+        assertArrayEquals(nullCheck, Huffman.createCode(null));
 
+
+        HuffmanNode a = new HuffmanNode(65, 5, null, null);
+        HuffmanNode b = new HuffmanNode(66, 3, null, null);
+        HuffmanNode c = new HuffmanNode(67, 2, null, null);
+        HuffmanNode right = HuffmanNode.combine(a, b);
+        HuffmanNode root = HuffmanNode.combine(right, c);
+        String[] codes = Huffman.createCode(root);
+        assertEquals("11", codes[65]);
+        assertEquals("10", codes[66]);
+        assertEquals("0", codes[67]);
     }
 
     @Test
@@ -123,10 +183,16 @@ public class HuffmanTest {
         Huffman.huffmanEncode("CSC-2001-Project-3/file5.txt", "file5_out.txt");
         assertTrue(compareFiles("file5_out.txt", "CSC-2001-Project-3/file5_soln.txt"));
         Huffman.huffmanEncode("CSC-2001-Project-3/empty.txt", "empty_out.txt");
+        Huffman.huffmanEncode("CSC-2001-Project-3/multiplelines.txt", "multiplelines_out.txt");
+        assertTrue(compareFiles("multiplelines_out.txt", "CSC-2001-Project-3/multiplelines_soln.txt"));
         assertTrue(compareFiles("empty_out.txt", "CSC-2001-Project-3/empty_soln.txt"));
         assertFalse(compareFiles("empty_out.txt", "CSC-2001-Project-3/file5_soln.txt"));
         assertFalse(compareFiles("CSC-2001-Project-3/file5_soln.txt", "empty_out.txt"));
         assertFalse(compareFiles("CSC-2001-Project-3/file5_soln.txt", "file3_out.txt"));
+
+        Huffman.huffmanEncode("CSC-2001-Project-3/char.txt", "char_out.txt");
+        assertTrue(compareFiles("char_out.txt", "CSC-2001-Project-3/char_soln.txt"));
+
     }
 
     @Test
@@ -154,8 +220,23 @@ public class HuffmanTest {
     }
 
     @Test
-    public void huffmanDecode() {
-
+    public void huffmanDecode() throws IOException {
+        Huffman.huffmanDecode("CSC-2001-Project-3/file1_soln.txt", "file1_decoded.txt");
+        assertTrue(compareFiles("file1_decoded.txt", "CSC-2001-Project-3/file1.txt"));
+        Huffman.huffmanDecode("CSC-2001-Project-3/file2_soln.txt", "file2_decoded.txt");
+        assertTrue(compareFiles("file2_decoded.txt", "CSC-2001-Project-3/file2.txt"));
+        Huffman.huffmanDecode("CSC-2001-Project-3/file3_soln.txt", "file3_decoded.txt");
+        assertTrue(compareFiles("file3_decoded.txt", "CSC-2001-Project-3/file3.txt"));
+        Huffman.huffmanDecode("CSC-2001-Project-3/file4_soln.txt", "file4_decoded.txt");
+        assertTrue(compareFiles("file4_decoded.txt", "CSC-2001-Project-3/file4.txt"));
+        Huffman.huffmanDecode("CSC-2001-Project-3/file5_soln.txt", "file5_decoded.txt");
+        assertTrue(compareFiles("file5_decoded.txt", "CSC-2001-Project-3/file5.txt"));
+        Huffman.huffmanDecode("CSC-2001-Project-3/empty_soln.txt", "empty_decoded.txt");
+        assertTrue(compareFiles("empty_decoded.txt", "CSC-2001-Project-3/empty.txt"));
+        Huffman.huffmanDecode("CSC-2001-Project-3/multiplelines_soln.txt", "multiplelines_decoded.txt");
+        assertTrue(compareFiles("multiplelines_decoded.txt", "CSC-2001-Project-3/multiplelines.txt"));
+        Huffman.huffmanDecode("CSC-2001-Project-3/char_soln.txt", "char_decoded.txt");
+        assertTrue(compareFiles("char_decoded.txt", "CSC-2001-Project-3/char.txt"));
     }
     /**
      * Compares two files line by line, trimming trailing CR/LF so the
