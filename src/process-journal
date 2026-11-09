@@ -28,3 +28,33 @@ createHeader is fixed so that it works when all values in array is 0.
 createHeader needs an if-else statement for that special case.
 
 5 Nov. 2025                     (4 days left)
+Didn't work on it today.
+Hitting a wall on how to do the Huffman Tree properly on code. I can do it on paper and it's not too hard.
+
+
+6 Nov. 2026                      (3 days left)
+Finishing up Lab 7 but didn't work on it today.
+Figuring out a solution on how to create the code for HuffmanTree encoding and decoding...
+Current Plan: Use an ArrayList to hold the node values, a while loop and true or false if left or right. If it isn't return 0, else return 1, until no lefts or rights exist (aka leaves)
+
+
+7 Nov. 2026                       (2 days left)
+Problems with that plan:
+This assumes that each node has only 1 child and where do I even hold the path to get to a character?
+Solution:
+Use 2 ArrayLists that function like Stacks to hold the node values and the path. Recursion can work for the subtrees but may be more complex to write.
+Keep the theme where if right exists put the parent's path + "1" and put left exists put a parent's path + "0".
+Everytime it does this it gets rid of the parent's path because it isn't necessary anymore.
+
+Work day today. Finishing the rest of the code for Huffman class and testing everything.
+
+8 Nov. 2026                          (1 day left)
+Problem: 100% coverage for all classes (HuffmanNode, Huffman)
+Problem 2: how do i test the compareFiles method to ensure 100% coverage.
+Problem 3: Fatigue and extreme tiredness is another problem I am suffering with.
+
+
+9 Nov. 2026                           (due at 10PM)
+Solution to Problem 2: do some assertFalse's to make sure compareFiles() in HuffmanTest work properly.
+Solution to Problem 3: I am getting better and this isn't really a problem anymore.
+

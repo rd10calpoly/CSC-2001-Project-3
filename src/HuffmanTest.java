@@ -28,6 +28,14 @@ public class HuffmanTest {
         HuffmanNode k = new HuffmanNode('k', 5);
         assertTrue(HuffmanNode.comesBefore(d, k));
         assertFalse(HuffmanNode.comesBefore(k, d));
+        HuffmanNode l1 = new HuffmanNode('l', 10);
+        HuffmanNode l2 = new HuffmanNode('l', 10);
+        HuffmanNode h1 = new HuffmanNode('h', 10);
+        HuffmanNode h2 = new HuffmanNode('h', 8);
+        assertFalse(HuffmanNode.comesBefore(l1, l2));
+        assertFalse(HuffmanNode.comesBefore(l2, l1));
+        assertFalse(HuffmanNode.comesBefore(h1, h2));
+        assertTrue(HuffmanNode.comesBefore(h2, h1));
     }
 
     @Test
@@ -43,43 +51,110 @@ public class HuffmanTest {
     }
 
     @Test
-    public void testLeaf() {
+    public void isLeaf() {
         HuffmanNode n = new HuffmanNode(100, 1, null, null);
         assertTrue(n.isLeaf());
+        HuffmanNode root = new HuffmanNode(100, 2, null, n);
+        assertFalse(root.isLeaf());
     }
 
     @Test
-    public void testAddNode() {
+    public void combine() {
+        HuffmanNode h1 = new HuffmanNode('h', 10);
+        HuffmanNode h2 = new HuffmanNode('h', 8);
+        HuffmanNode h3 = HuffmanNode.combine(h1, h2);
+        assertEquals(18, h3.freq());
+        assertEquals('h', h3.charAscii());
+
+
+        HuffmanNode s = new HuffmanNode('s', 7);
+        HuffmanNode l = new HuffmanNode('l', 97);
+        HuffmanNode combined = HuffmanNode.combine(s, l);
+        assertEquals(104, combined.freq());
+        assertEquals('l', combined.charAscii());
+
+        HuffmanNode semicolon = new HuffmanNode(';', 1);
+        HuffmanNode exclaim = new HuffmanNode('!', 1);
+        HuffmanNode combined1 = HuffmanNode.combine(semicolon, exclaim);
+        assertEquals(2, combined1.freq());
+        assertEquals('!', combined1.charAscii());
+    }
+
+    @Test
+    public void compareTo() {
+        HuffmanNode h1 = new HuffmanNode('h', 10);
+        HuffmanNode h2 = new HuffmanNode('h', 8);
+        HuffmanNode h3 = new HuffmanNode('h', 10);
+        assertEquals(1, h1.compareTo(h2));
+        assertEquals(0, h1.compareTo(h3));
+        assertEquals(-1, h2.compareTo(h1));
+    }
+
+    @Test
+    public void addNode() {
 
     }
 
     @Test
-    public void testRemoveMin() {
+    public void removeMin() {
 
     }
 
     @Test
-    public void testCreateTree() {
+    public void createTree() {
 
     }
 
     @Test
-    public void testCreateCode() {
+    public void createCode() {
 
     }
 
     @Test
-    public void testHuffmanEncode() {
-
+    public void huffmanEncode() throws IOException {
+        Huffman.huffmanEncode("CSC-2001-Project-3/file1.txt", "file1_out.txt");
+        assertTrue(compareFiles("file1_out.txt", "CSC-2001-Project-3/file1_soln.txt"));
+        Huffman.huffmanEncode("CSC-2001-Project-3/file2.txt", "file2_out.txt");
+        assertTrue(compareFiles("file2_out.txt", "CSC-2001-Project-3/file2_soln.txt"));
+        Huffman.huffmanEncode("CSC-2001-Project-3/file3.txt", "file3_out.txt");
+        assertTrue(compareFiles("file3_out.txt", "CSC-2001-Project-3/file3_soln.txt"));
+        Huffman.huffmanEncode("CSC-2001-Project-3/file4.txt", "file4_out.txt");
+        assertTrue(compareFiles("file4_out.txt", "CSC-2001-Project-3/file4_soln.txt"));
+        Huffman.huffmanEncode("CSC-2001-Project-3/file5.txt", "file5_out.txt");
+        assertTrue(compareFiles("file5_out.txt", "CSC-2001-Project-3/file5_soln.txt"));
+        Huffman.huffmanEncode("CSC-2001-Project-3/empty.txt", "empty_out.txt");
+        assertTrue(compareFiles("empty_out.txt", "CSC-2001-Project-3/empty_soln.txt"));
+        assertFalse(compareFiles("empty_out.txt", "CSC-2001-Project-3/file5_soln.txt"));
+        assertFalse(compareFiles("CSC-2001-Project-3/file5_soln.txt", "empty_out.txt"));
+        assertFalse(compareFiles("CSC-2001-Project-3/file5_soln.txt", "file3_out.txt"));
     }
 
     @Test
-    public void testParseHeader() {
+    public void parseHeader() {
+        String header1 = "68 1 69 3 70 6 78 5 81 11 88 12 91 2 96 3";
+        int[] parsed1 = Huffman.parseHeader(header1);
+        int[] freq1 = new int[256];
+        freq1[68] = 1;
+        freq1[69] = 3;
+        freq1[70] = 6;
+        freq1[78] = 5;
+        freq1[81] = 11;
+        freq1[88] = 12;
+        freq1[91] = 2;
+        freq1[96] = 3;
+        assertArrayEquals(parsed1, freq1);
 
+        String header2 = "1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16";
+        int[] parsed2 = Huffman.parseHeader(header2);
+        int[] freq2 = new int[256];
+        for (int i = 1; i <= 15; i += 2) {
+            freq2[i] = i + 1;
+        }
+        assertArrayEquals(parsed2, freq2);
     }
 
     @Test
-    public void testHuffmanDecode() {
+    public void huffmanDecode() {
 
     }
     /**

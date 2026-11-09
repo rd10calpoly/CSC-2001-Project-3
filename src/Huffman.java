@@ -37,7 +37,6 @@ public class Huffman {
     public static int[] cntFreq(String filename) throws IOException {
         int[] freq = new int[NUM_CHARS];
         // TODO: implement
-        System.out.println(new java.io.File("CSC-2001-Project-3/file2.txt").getAbsolutePath());
         File f = new File(filename);
         FileReader reader = new FileReader(f);
         int c = reader.read();
@@ -58,6 +57,9 @@ public class Huffman {
      * from createHuffTree(). For example, an ArrayList kept sorted by
      * HuffmanNode.comesBefore() as you insert (an "ordered list"), or a
      * PriorityQueue. How you implement this method depends on which you pick.
+     * @param collection: Collection<HuffmanNode>
+     * @param node: HuffmanNode
+     * (1) collection: [0, 1, 2, 3, 4] -> add(5) -> collection: [0, 1, 2, 3, 4, 5]
      */
     public static void addNode(Collection<HuffmanNode> collection, HuffmanNode node) {
         // TODO: implement
@@ -67,12 +69,16 @@ public class Huffman {
     /**
      * Removes and returns the smallest HuffmanNode in collection, using
      * HuffmanNode.comesBefore() (or compareTo(), which relies on it) to
-     * determine "smallest". Returns null if collection is empty.
+     * determine "smallest". Returns null if collection is empty.txt.
      *
      * This must work for ANY Collection passed in -- not just the one you
      * use inside createHuffTree(). For example, if you back createHuffTree()
      * with a PriorityQueue, poll() it; for any other collection, find the
      * minimum node and remove it.
+     * @param collection: Collection<HuffmanNode>
+     * @return HuffmanNode
+     * (1) let collection be ArrayList
+     * (1) collection: {3, 4, 5, 10, 13} -> removeMin(collection) -> {4, 5, 10, 13}
      */
     public static HuffmanNode removeMin(Collection<HuffmanNode> collection) {
         // TODO: implement
@@ -82,8 +88,7 @@ public class Huffman {
 
         if (collection instanceof PriorityQueue<HuffmanNode>) {
             PriorityQueue<HuffmanNode> pq = (PriorityQueue<HuffmanNode>) collection;
-            HuffmanNode node = pq.poll();
-            return node;
+            return pq.poll();
         } else {
             HuffmanNode minimum = null;
             for (HuffmanNode n : collection) {
@@ -107,10 +112,13 @@ public class Huffman {
      * resulting tree, should not depend on which one you chose.
      *
      * Special cases:
-     *  - If freq contains no non-zero counts (empty input file), return null
+     *  - If freq contains no non-zero counts (empty.txt input file), return null
      *  - If freq contains exactly one non-zero count (input file has only
      *    one unique character), return a single leaf HuffmanNode for that
      *    character (no combine() call needed).
+     * @param freq: int[]
+     * @return HuffmanNode
+     * (1) {4, 3, 3} -> root(10) -> left(4) -> right(6) -> right, left(3) -> right, right(3)
      */
     public static HuffmanNode createHuffTree(int[] freq) {
         PriorityQueue<HuffmanNode> pq = new PriorityQueue<>();
@@ -137,16 +145,46 @@ public class Huffman {
      * '0' to the code, going right appends '1'.
      *
      * Returns a String array of size NUM_CHARS, indexed by ASCII value.
-     * Characters that do not appear in the tree have an empty string ""
+     * Characters that do not appear in the tree have an empty.txt string ""
      * at their index. The same is true of the lone character in a
      * single-node tree (the only-one-unique-character case) - it has no
      * left/right branch to build a code out of; huffmanEncode/huffmanDecode
      * handle that case entirely through the header.
+     * @param root: HuffmanNode
+     * @return String[]
+     *  (1) 4 -> 2 (left) -> 2 (right) -> 'G' (left, left) -> 'H' (left, right) -> 'J' (right, left) -> 'M' (right, right)
+     *  'G' -> 00; 'H' -> 01; 'J' -> 10; 'K' -> 11
      */
     public static String[] createCode(HuffmanNode root) {
         String[] codes = new String[NUM_CHARS];
         Arrays.fill(codes, "");
         // TODO: implement
+        if (root == null) {
+            return codes;
+        }
+        ArrayList<HuffmanNode> nodes = new ArrayList<>();
+        ArrayList<String> codedPaths = new ArrayList<>();
+        nodes.add(root);
+        codedPaths.add("");
+        while (!nodes.isEmpty()) {
+            HuffmanNode currentNode = nodes.remove(0);
+            String currentPath = codedPaths.remove(0);
+
+            if (currentNode.isLeaf()) {
+                codes[currentNode.charAscii()] = currentPath;
+            } else {
+                HuffmanNode left = currentNode.left();
+                HuffmanNode right = currentNode.right();
+                if (left != null) {
+                    nodes.add(left);
+                    codedPaths.add(currentPath + "0");
+                }
+                if (right != null) {
+                    nodes.add(right);
+                    codedPaths.add(currentPath + "1");
+                }
+            }
+        }
         return codes;
     }
 
@@ -157,6 +195,9 @@ public class Huffman {
      * ASCII value. Only characters with a non-zero count are included.
      *
      * Example: for the text "aaabbbbcc" this returns "97 3 98 4 99 2".
+     * @param freq: int[]
+     * @return String
+     * (1) createHeader -> "randy" -> returns "97 1 100 1 110 1 114 1 121 1"
      */
     public static String createHeader(int[] freq) {
         // TODO: implement
@@ -182,12 +223,37 @@ public class Huffman {
      * If outFile already exists, its old contents are overwritten.
      *
      * Special cases:
-     *  - Empty input file: outFile should end up empty too
+     *  - Empty input file: outFile should end up empty.txt too
      *  - Input file with only one unique character: should contain only the
      *    header line (e.g. "97 5") and nothing else - no second line of code bits.
+     * @param inFile: String
+     * @param outFile: String
+     * (1) inFile -> "babab", HuffmanTree -> root(2) -> left(a) -> right(b), outFile -> "10101"
      */
     public static void huffmanEncode(String inFile, String outFile) throws IOException {
         // TODO: implement
+        int[] countFreq = cntFreq(inFile);
+        String header = createHeader(countFreq);
+        FileWriter writer = new FileWriter(outFile);
+        if (header.isEmpty()) {
+            writer.close();
+            return;
+        }
+        writer.write(header + "\n");
+        HuffmanNode tree = createHuffTree(countFreq);
+        if (tree.isLeaf()) {
+            writer.close();
+            return;
+        }
+        String[] treeCode = createCode(tree);
+        FileReader reader = new FileReader(inFile);
+        int r = reader.read();
+        while (r != -1) {
+            writer.write(treeCode[r]);
+            r = reader.read();
+        }
+        reader.close();
+        writer.close();
     }
 
     /**
@@ -196,13 +262,17 @@ public class Huffman {
      * by ASCII value, i.e. the same format returned by cntFreq().
      *
      * Example: for the header "97 3 98 4 99 2", freq[97, 98, 99] == {3, 4, 2}.
+     * @param headerString: String
+     * @return int[]
+     * (1) "65 2 98 11 100 5" -> freq[65, 98, 100] -> {2, 11, 5}
      */
     public static int[] parseHeader(String headerString) {
         int[] freq = new int[NUM_CHARS];
         String[] valuesInHeaders = headerString.split(" ");
-        for (int i = 0; i < headerString.length(); i++) {
-            char c = headerString.charAt(i);
-            freq[c]++;
+        for (int i = 0; i < valuesInHeaders.length; i += 2) {
+            int character = Integer.parseInt(valuesInHeaders[i]);
+            int frequencyNumber = Integer.parseInt(valuesInHeaders[i + 1]);
+            freq[character] = frequencyNumber;
         }
         // TODO: implement
         return freq;
@@ -222,8 +292,40 @@ public class Huffman {
      * only-one-unique-character case), there is no second line to read
      * The header's count alone tells you how many times that character occurred,
      * so write it out that many times directly.
+     * @param encodedFile: String
+     * @param decodeFile: String
+     *  (1) encodedFile -> "10101", HuffmanTree -> root(2) -> left(a) -> right(b), decodedFile("babab")
      */
     public static void huffmanDecode(String encodedFile, String decodeFile) throws IOException {
         // TODO: implement
+        File file = new File(encodedFile);
+        Scanner scan = new Scanner(file);
+        FileWriter writer = new FileWriter(decodeFile);
+        String firstLineHeader = scan.nextLine();
+        int[] frequencies = parseHeader(firstLineHeader);
+        HuffmanNode tree = createHuffTree(frequencies);
+        if (tree.isLeaf()) {
+            for (int i = 0; i < tree.freq(); i++) {
+                writer.write(tree.charAscii());
+            }
+            writer.close();
+            return;
+        }
+        String binaryCode = scan.nextLine();
+        HuffmanNode curr = tree;
+        for (int i = 0; i < binaryCode.length(); i++) {
+            char digit = binaryCode.charAt(i);
+            if (digit == '0') {
+                curr = curr.left();
+            } else if (digit == '1') {
+                curr = curr.right();
+            }
+            if (curr.isLeaf()) {
+                writer.write(curr.charAscii());
+                curr = tree;
+            }
+        }
+        scan.close();
+        writer.close();
     }
 }
