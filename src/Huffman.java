@@ -33,6 +33,7 @@ public class Huffman {
      * the count of each character (0 for characters that do not occur).
      * @param filename: String
      * @return int[]
+     * (1) "aaaabbc" -> int[97, 98, 99] -> {4, 2, 1}
      */
     public static int[] cntFreq(String filename) throws IOException {
         int[] freq = new int[NUM_CHARS];
