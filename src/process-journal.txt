@@ -67,6 +67,9 @@ Solution to Problem 3: I am getting better and this isn't really a problem anymo
 Problem: huffmanDecode does not work with empty text files.
 Solution to problem: have an if statement to check is that line isn't empty with hasNextLine().
 
+Problem: submitting an empty txt file is not allowed on canvas.
+Solution: deleting that empty.txt file and adjusting code to get 100% code coverage.
+
 
 Everything is finished, time to submit. (3:14 PM)
 
