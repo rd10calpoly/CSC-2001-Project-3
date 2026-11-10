@@ -208,11 +208,7 @@ public class Huffman {
                 result += i + " " + freq[i] + " ";
             }
         }
-        if (result.length() == 0) {
-            return "";
-        } else {
-            return result.substring(0, result.length() - 1);
-        }
+        return result.substring(0, result.length() - 1);
     }
 
     /**
