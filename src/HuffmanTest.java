@@ -182,10 +182,10 @@ public class HuffmanTest {
         assertTrue(compareFiles("file4_out.txt", "CSC-2001-Project-3/file4_soln.txt"));
         Huffman.huffmanEncode("CSC-2001-Project-3/file5.txt", "file5_out.txt");
         assertTrue(compareFiles("file5_out.txt", "CSC-2001-Project-3/file5_soln.txt"));
-        Huffman.huffmanEncode("CSC-2001-Project-3/empty.txt", "empty_out.txt");
+        Huffman.huffmanEncode("CSC-2001-Project-3/nothing.txt", "empty_out.txt");
         Huffman.huffmanEncode("CSC-2001-Project-3/multiplelines.txt", "multiplelines_out.txt");
         assertTrue(compareFiles("multiplelines_out.txt", "CSC-2001-Project-3/multiplelines_soln.txt"));
-        assertTrue(compareFiles("empty_out.txt", "CSC-2001-Project-3/empty_soln.txt"));
+        assertTrue(compareFiles("empty_out.txt", "CSC-2001-Project-3/nothing_soln.txt"));
         assertFalse(compareFiles("empty_out.txt", "CSC-2001-Project-3/file5_soln.txt"));
         assertFalse(compareFiles("CSC-2001-Project-3/file5_soln.txt", "empty_out.txt"));
         assertFalse(compareFiles("CSC-2001-Project-3/file5_soln.txt", "file3_out.txt"));
@@ -231,8 +231,8 @@ public class HuffmanTest {
         assertTrue(compareFiles("file4_decoded.txt", "CSC-2001-Project-3/file4.txt"));
         Huffman.huffmanDecode("CSC-2001-Project-3/file5_soln.txt", "file5_decoded.txt");
         assertTrue(compareFiles("file5_decoded.txt", "CSC-2001-Project-3/file5.txt"));
-        Huffman.huffmanDecode("CSC-2001-Project-3/empty_soln.txt", "empty_decoded.txt");
-        assertTrue(compareFiles("empty_decoded.txt", "CSC-2001-Project-3/empty.txt"));
+        Huffman.huffmanDecode("CSC-2001-Project-3/nothing_soln.txt", "empty_decoded.txt");
+        assertTrue(compareFiles("empty_decoded.txt", "CSC-2001-Project-3/nothing.txt"));
         Huffman.huffmanDecode("CSC-2001-Project-3/multiplelines_soln.txt", "multiplelines_decoded.txt");
         assertTrue(compareFiles("multiplelines_decoded.txt", "CSC-2001-Project-3/multiplelines.txt"));
         Huffman.huffmanDecode("CSC-2001-Project-3/char_soln.txt", "char_decoded.txt");

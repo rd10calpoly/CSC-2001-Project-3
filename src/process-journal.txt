@@ -68,5 +68,5 @@ Problem: huffmanDecode does not work with empty text files.
 Solution to problem: have an if statement to check is that line isn't empty with hasNextLine().
 
 
-Everything is finished, time to submit.
+Everything is finished, time to submit. (3:14 PM)
 

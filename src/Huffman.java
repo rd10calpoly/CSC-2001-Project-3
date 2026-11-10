@@ -69,7 +69,7 @@ public class Huffman {
     /**
      * Removes and returns the smallest HuffmanNode in collection, using
      * HuffmanNode.comesBefore() (or compareTo(), which relies on it) to
-     * determine "smallest". Returns null if collection is empty.txt.
+     * determine "smallest". Returns null if collection is nothing.txt.
      *
      * This must work for ANY Collection passed in -- not just the one you
      * use inside createHuffTree(). For example, if you back createHuffTree()
@@ -112,7 +112,7 @@ public class Huffman {
      * resulting tree, should not depend on which one you chose.
      *
      * Special cases:
-     *  - If freq contains no non-zero counts (empty.txt input file), return null
+     *  - If freq contains no non-zero counts (nothing.txt input file), return null
      *  - If freq contains exactly one non-zero count (input file has only
      *    one unique character), return a single leaf HuffmanNode for that
      *    character (no combine() call needed).
@@ -145,7 +145,7 @@ public class Huffman {
      * '0' to the code, going right appends '1'.
      *
      * Returns a String array of size NUM_CHARS, indexed by ASCII value.
-     * Characters that do not appear in the tree have an empty.txt string ""
+     * Characters that do not appear in the tree have an nothing.txt string ""
      * at their index. The same is true of the lone character in a
      * single-node tree (the only-one-unique-character case) - it has no
      * left/right branch to build a code out of; huffmanEncode/huffmanDecode
@@ -223,7 +223,7 @@ public class Huffman {
      * If outFile already exists, its old contents are overwritten.
      *
      * Special cases:
-     *  - Empty input file: outFile should end up empty.txt too
+     *  - Empty input file: outFile should end up nothing.txt too
      *  - Input file with only one unique character: should contain only the
      *    header line (e.g. "97 5") and nothing else - no second line of code bits.
      * @param inFile: String
